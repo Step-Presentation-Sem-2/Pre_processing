@@ -4,7 +4,7 @@ from PIL import Image
 import os
 import config as cg
 
-def preprocessing(image_path, output_size, save_dir = output_directory_path, mean_vals=cg.mean, scale_factor=1.0/255):
+def preprocessing(image_path, output_size, save_dir, mean_vals=cg.mean, scale_factor=1.0/255):
     """
     Resize the images, 
     perform mean subtraction, 
@@ -23,9 +23,9 @@ def preprocessing(image_path, output_size, save_dir = output_directory_path, mea
     image = image.resize(output_size)
     image_np = np.array(image, dtype=np.float32)
 
-    # Check if image is grayscale and convert it to RGB by duplicating the channels
-    if len(image_np.shape) == 2 or image_np.shape[2] == 1:
-        image_np = np.stack((image_np,) * 3, axis=-1)
+    # # Check if image is grayscale and convert it to RGB by duplicating the channels
+    # if len(image_np.shape) == 2 or image_np.shape[2] == 1:
+    #     image_np = np.stack((image_np,) * 3, axis=-1)
 
     # Perform mean subtraction
     for i in range(3):  # Assuming the image is in RGB format
@@ -67,6 +67,7 @@ def reading_images(input_directory_path,output_size,output_directory_path):
 
 
 if __name__ == "__main__":
+    # calling arguments necessary for preprocessing images
     parser = argparse.ArgumentParser(description="Preprocess images for modelling and then save in a separate folder.")
     parser.add_argument("input_directory_path", type=str, help="Path to the directory containing images to be preprocessed.")
     parser.add_argument("--width", type=int, default=224, help="Output image width.")
